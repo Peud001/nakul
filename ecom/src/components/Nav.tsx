@@ -6,7 +6,7 @@ const Nav = () => {
       <div className="nav">
         <p className="nav-logo">Logo</p>
         <div className="nav-input-div">
-          <input className="nav-input" placeholder="Search products" />
+          <input className="nav-input" placeholder="Search products..." />
           <button className="nav-search-button" type="submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
