@@ -1,11 +1,11 @@
-import React from "react";
+
 
 const Nav = () => {
   return (
     <section className="common-settings nav-section">
       <div className="nav">
-        <p className="nav-logo">Logo</p>
-        <div className="nav-input-div">
+        <div className="nav-logo">Logo</div>
+        <div>
           <input className="nav-input" placeholder="Search products..." />
           <button className="nav-search-button" type="submit">
             <svg

@@ -25,7 +25,7 @@ const Sidebar = () => {
   return (
     <section 
     className="search-bar-section">
-        <p className="categories">categories</p>
+        <p className="categories">Categories</p>
       <div className="search-bar-div">
         {sidebarItems.map((item, index) => {
           return (
