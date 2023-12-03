@@ -1,35 +1,39 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
 import axios from 'axios'
 
-const API = 'https://dummyjson.com/products/'
-
-export const fetchAll = createAsyncThunk('all/fetch', async() => {
-    try{
-        const res = await axios.get(API)
-        localStorage.setItem('all', JSON.stringify(res.data.products))
-        return res?.data.products
-    }
-    catch(err){
-        return err instanceof Error? err.message : "Couldn't fetch data, please retry"
-    }
-})
 
 interface initialStateType {
     all : []
     status : string
     error : string | null
+    api : string
 }
+
+export const fetchAll = createAsyncThunk('all/fetch', async (_, {getState}) => {
+    try {
+        const state = getState() as initialStateType
+        const res = await axios.get(state.all.api);
+        return res?.data.products;
+    } catch (err) {
+        return err instanceof Error ? err.message : "Couldn't fetch data, please retry";
+    }
+});
 
 const initialState: initialStateType = {
     all : [],
     status : 'idle',
-    error : null 
+    error : null,
+    api : 'https://dummyjson.com/products/' 
 }
 
 export const allSlice = createSlice({
     name : 'all',
     initialState,
-    reducers : {},
+    reducers : {
+        getApi(state, action){
+            state.api = action.payload
+        }
+    },
     extraReducers(builder){
         builder
         .addCase(fetchAll.pending, (state) => {
@@ -46,3 +50,4 @@ export const allSlice = createSlice({
     }
 })
 export default allSlice.reducer
+export const {getApi} = allSlice.actions
