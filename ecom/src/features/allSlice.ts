@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
+import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit'
 import axios from 'axios'
 
 
@@ -32,6 +32,9 @@ export const allSlice = createSlice({
     reducers : {
         getApi(state, action){
             state.api = action.payload
+        },
+        getFilteredPrice(state, action){
+            state.all = state.all.filter((item) => item.price >= action.payload[0] && item.price <= action.payload[1])
         }
     },
     extraReducers(builder){
@@ -50,4 +53,4 @@ export const allSlice = createSlice({
     }
 })
 export default allSlice.reducer
-export const {getApi} = allSlice.actions
+export const {getApi, getFilteredPrice} = allSlice.actions

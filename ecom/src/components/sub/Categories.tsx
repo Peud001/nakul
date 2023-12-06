@@ -10,8 +10,6 @@ interface sidebarItemsType {
 const Categories = () => {
   const dispatch = useAppDispatch();
 
-  const [isClass, setClass] = useState(false);
-
   const categories: sidebarItemsType[] = [
     { title: "All categories", url: "https://dummyjson.com/products/" },
     {
@@ -93,35 +91,18 @@ const Categories = () => {
     },
   ];
 
-  const handleClick = () => {
-    setClass(prev => !prev);
-  };
-
   const handleApi = (item: sidebarItemsType) => {
     dispatch(getApi(item.url));
     dispatch(fetchAll());
-    setClass(prev => !prev);
   };
 
   return (
     <section>
       <div className="search-bar-section">
-        <div onClick={handleClick} className="categories">
+        <div className="categories cat">
           Categories
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              className="bi bi-caret-down-fill"
-              viewBox="0 0 16 16"
-            >
-              <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-            </svg>
-          </span>
         </div>
-        <div className={isClass ? "search-bar-div-on" : "search-bar-div-off"}>
+        <div className="search-bar-div-on">
           {categories.map((item, index) => {
             return (
               <div
@@ -140,6 +121,3 @@ const Categories = () => {
 };
 
 export default Categories;
-function setClass(arg0: boolean) {
-  throw new Error("Function not implemented.");
-}
