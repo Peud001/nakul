@@ -4,6 +4,7 @@ import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar"
 import All from "./components/All";
 import Layout from "./components/Layout";
+import NotFound from "./components/sub/NotFound";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route element={<Layout/>}>
             <Route path="/" element={<All/>}/>
+            <Route path="/notFound" element={<NotFound/>}/>
           </Route>
         </Routes>
       </BrowserRouter>

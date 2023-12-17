@@ -7,6 +7,7 @@ interface initialStateType {
     status : string
     error : string | null
     api : string
+    noMatch ?: string
 }
 
 export const fetchAll = createAsyncThunk('all/fetch', async (_, {getState}) => {
@@ -23,7 +24,8 @@ const initialState: initialStateType = {
     all : [],
     status : 'idle',
     error : null,
-    api : 'https://dummyjson.com/products/' 
+    api : 'https://dummyjson.com/products/',
+    noMatch : ''
 }
 
 export const allSlice = createSlice({
@@ -35,6 +37,12 @@ export const allSlice = createSlice({
         },
         getFilteredPrice(state, action){
             state.all = state.all.filter((item) => item.price >= action.payload[0] && item.price <= action.payload[1])
+        },
+        getFilteredSearch(state, action){
+            state.all = action.payload
+        },
+        getNoMatch(state, action){
+            state.noMatch = action.payload
         }
     },
     extraReducers(builder){
@@ -53,4 +61,4 @@ export const allSlice = createSlice({
     }
 })
 export default allSlice.reducer
-export const {getApi, getFilteredPrice} = allSlice.actions
+export const {getApi, getFilteredPrice, getFilteredSearch, getNoMatch} = allSlice.actions

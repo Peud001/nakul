@@ -1,24 +1,120 @@
+import { ChangeEvent, useState, MouseEvent, TouchEvent, FormEvent } from "react";
+import { CategoriesData } from "./sub/CategoriesData";
+import { fetchAll, getApi, getNoMatch } from "../features/allSlice";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { useNavigate } from "react-router-dom";
 
+interface categoriesType{
+  title: string;
+  url: string;
+}
+
+interface allType {
+  id: number | string;
+  thumbnail: string;
+  title: string;
+  rating: number;
+  stock: number;
+  price: number;
+  images: string[];
+  discountPercentage: number;
+}
 
 const Nav = () => {
+
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const all = useAppSelector(state => state.all.all)
+
+  const [options, setOptions] = useState<string | undefined>('')
+  const [result, setResult] = useState<categoriesType[]>([])
+  const [isFound, setIsFound] = useState<boolean>(false)
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    const input = e.target.value
+    setOptions(input)
+
+    const pattern = new RegExp(`^${input}`, 'i')
+    if(input && input.length > 0){
+      const filteredResult = CategoriesData.filter(item => pattern.test(item.title.toLowerCase()))
+      setResult(filteredResult)
+    }
+    else{
+      setResult([])
+    } 
+  }
+
+  const handleClick = (item: categoriesType) => {
+    dispatch(getApi(item.url))
+    dispatch(fetchAll())
+    setOptions(item.title)
+    setResult([])
+  }
+
+  const handleCloseOptions = (e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+
+    setOptions("")
+    setResult([])
+  }
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if(options){
+      const filterSearch = all.filter((item: allType) => item.title.toLowerCase().includes(options.toLowerCase()))
+      if(filterSearch.length < 1){
+        dispatch(getNoMatch(options))
+        setOptions('')
+        navigate('/notFound')
+      }
+    }
+  }
+
   return (
     <section className="common-settings nav-section">
       <div className="nav">
         <div className="nav-logo">Logo</div>
         <div>
-          <input className="nav-input" placeholder="Search products..." />
-          <button className="nav-search-button" type="submit">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="#808080"
-              className="bi bi-search"
-              viewBox="0 0 16 16"
-            >
-              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-            </svg>
-          </button>
+          <form onSubmit={(e) => handleSubmit(e)} className="search-form">
+            <input 
+            className="nav-input" 
+            placeholder="Search products..."
+            value={options} 
+            onChange={(e) => handleChange(e)}
+            />
+            <button className="nav-search-button" type="submit">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="#808080"
+                className="bi bi-search"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+              </svg>
+            </button>
+            <button onClick={(e) => handleCloseOptions(e)} type="submit" className="search-close-btn">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                fill="currentColor"
+                className="bi bi-x"
+                viewBox="0 0 16 16"
+              >
+                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+              </svg>
+            </button>
+          </form>
+          <div className="search-options-container">
+            {
+              result && result.map((item, i) => <div key={i}>
+                <div className="search-options" onClick={() => handleClick(item)}>{item.title}</div>
+              </div>)
+            }
+          </div>
         </div>
         <div className="nav-cart-icon-div">
           <svg

@@ -1,18 +1,11 @@
-import { useAppDispatch } from "../../app/hook";
-import { fetchAll, getApi } from "../../features/allSlice";
 
-interface sidebarItemsType {
-  title: string;
-  url: string;
-}
-
-const Categories = () => {
-  const dispatch = useAppDispatch();
-
-  const categories: sidebarItemsType[] = [
-    { title: "All categories", url: "https://dummyjson.com/products/" },
+export const CategoriesData = [
     {
       title: "Smartphones",
+      url: "https://dummyjson.com/products/category/smartphones",
+    },
+    {
+      title: "Phones",
       url: "https://dummyjson.com/products/category/smartphones",
     },
     {
@@ -24,11 +17,35 @@ const Categories = () => {
       url: "https://dummyjson.com/products/category/fragrances",
     },
     {
+      title: "Perfume",
+      url: "https://dummyjson.com/products/category/fragrances",
+    },
+    {
+      title: "Cologne",
+      url: "https://dummyjson.com/products/category/fragrances",
+    },
+    {
       title: "Skincare",
       url: "https://dummyjson.com/products/category/skincare",
     },
     {
+      title: "oil",
+      url: "https://dummyjson.com/products/category/skincare",
+    },
+    {
+      title: "body spray",
+      url: "https://dummyjson.com/products/category/skincare",
+    },
+    {
+      title: "Cream",
+      url: "https://dummyjson.com/products/category/skincare",
+    },
+    {
       title: "Groceries",
+      url: "https://dummyjson.com/products/category/groceries",
+    },
+    {
+      title: "Cereal",
       url: "https://dummyjson.com/products/category/groceries",
     },
     {
@@ -45,7 +62,15 @@ const Categories = () => {
       url: "https://dummyjson.com/products/category/womens-dresses",
     },
     {
+      title: "Clothes for women",
+      url: "https://dummyjson.com/products/category/womens-dresses",
+    },
+    {
       title: "Women's shoes",
+      url: "https://dummyjson.com/products/category/womens-shoes",
+    },
+    {
+      title: "Shoes for women",
       url: "https://dummyjson.com/products/category/womens-shoes",
     },
     {
@@ -53,7 +78,15 @@ const Categories = () => {
       url: "https://dummyjson.com/products/category/womens-watches",
     },
     {
+      title: "Watches for women",
+      url: "https://dummyjson.com/products/category/womens-watches",
+    },
+    {
       title: "Women's bags",
+      url: "https://dummyjson.com/products/category/womens-bags",
+    },
+    {
+      title: "Bags for women",
       url: "https://dummyjson.com/products/category/womens-bags",
     },
     {
@@ -61,7 +94,15 @@ const Categories = () => {
       url: "https://dummyjson.com/products/category/womens-jewellery",
     },
     {
+      title: "Jewellery",
+      url: "https://dummyjson.com/products/category/womens-jewellery",
+    },
+    {
       title: "Men's shirts",
+      url: "https://dummyjson.com/products/category/mens-shirts",
+    },
+    {
+      title: "Shirts for men",
       url: "https://dummyjson.com/products/category/mens-shirts",
     },
     {
@@ -69,7 +110,15 @@ const Categories = () => {
       url: "https://dummyjson.com/products/category/mens-shoes",
     },
     {
+      title: "Shoes for men",
+      url: "https://dummyjson.com/products/category/mens-shoes",
+    },
+    {
       title: "Men's watches",
+      url: "https://dummyjson.com/products/category/mens-watches",
+    },
+    {
+      title: "Watches for men",
       url: "https://dummyjson.com/products/category/mens-watches",
     },
     {
@@ -89,34 +138,3 @@ const Categories = () => {
       url: "https://dummyjson.com/products/category/lighting",
     },
   ];
-
-  const handleApi = (item: sidebarItemsType) => {
-    dispatch(getApi(item.url));
-    dispatch(fetchAll());
-  };
-
-  return (
-    <section>
-      <div className="search-bar-section">
-        <div className="categories cat">
-          Categories
-        </div>
-        <div className="search-bar-div-on">
-          {categories.map((item, index) => {
-            return (
-              <div
-                onClick={() => handleApi(item)}
-                className="custom-dropdown-options"
-                key={index}
-              >
-                {item.title}
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Categories;
