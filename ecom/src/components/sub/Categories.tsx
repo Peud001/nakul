@@ -91,7 +91,10 @@ const Categories = () => {
   ];
 
   const handleApi = (item: sidebarItemsType) => {
-    dispatch(getApi(item.url));
+    const url = item.url
+    console.log(url)
+    localStorage.setItem('api', JSON.stringify(url))
+    dispatch(getApi())
     dispatch(fetchAll());
   };
 

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../app/hook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface allType {
   id: number | string;
@@ -14,6 +14,7 @@ interface allType {
 }
 
 const All = () => {
+
   const [imageId, setImageId] = useState<allType | string>("");
 
   const all: allType[] = useAppSelector((state) => state.all.all);

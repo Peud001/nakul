@@ -25,7 +25,7 @@ const Nav = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const all = useAppSelector(state => state.all.all)
-
+  
   const [options, setOptions] = useState<string | undefined>('')
   const [result, setResult] = useState<categoriesType[]>([])
   const [isFound, setIsFound] = useState<boolean>(false)
@@ -46,7 +46,9 @@ const Nav = () => {
   }
 
   const handleClick = (item: categoriesType) => {
-    dispatch(getApi(item.url))
+    const url = item.url
+    localStorage.setItem('api', JSON.stringify(url))
+    dispatch(getApi())
     dispatch(fetchAll())
     setOptions(item.title)
     setResult([])
