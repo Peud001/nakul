@@ -1,9 +1,19 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit'
 import axios from 'axios'
 
+interface allType {
+  id: number | string;
+  thumbnail: string;
+  title: string;
+  rating: number;
+  stock: number;
+  price: number;
+  images: string[];
+  discountPercentage: number;
+}
 
 interface initialStateType {
-    all : []
+    all : allType[]
     status : string
     error : string | null
     api : string
@@ -35,16 +45,16 @@ export const allSlice = createSlice({
         getApi(state){
             state.api = JSON.parse(localStorage.getItem('api') ?? '')
         },
-        getFilteredPrice(state, action){
-            state.all = state.all.filter((item) => item.price >= action.payload[0] && item.price <= action.payload[1])
+        getFilteredPrice(state, action: PayloadAction<number[]>){
+            state.all = state.all.filter((item: allType) => item.price >= action.payload[0] && item.price <= action.payload[1])
         },
-        getFilteredSearch(state, action){
+        getFilteredSearch(state, action: PayloadAction<allType[]>){
             state.all = action.payload
         },
-        getNoMatch(state, action){
+        getNoMatch(state, action: PayloadAction<string>){
             state.noMatch = action.payload
         },
-        getDiscount(state, action){
+        getDiscount(state, action: PayloadAction<allType[]>){
             state.all = action.payload
         }
     },

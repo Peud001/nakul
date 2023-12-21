@@ -28,7 +28,6 @@ const Nav = () => {
   
   const [options, setOptions] = useState<string | undefined>('')
   const [result, setResult] = useState<categoriesType[]>([])
-  const [isFound, setIsFound] = useState<boolean>(false)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()

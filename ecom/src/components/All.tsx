@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hook";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface allType {
   id: number | string;
@@ -15,6 +15,8 @@ interface allType {
 
 const All = () => {
 
+  const navigate = useNavigate()
+
   const [imageId, setImageId] = useState<allType | string>("");
 
   const all: allType[] = useAppSelector((state) => state.all.all);
@@ -24,7 +26,11 @@ const All = () => {
   };
   const handleLeave = () => {
     setImageId("");
-  };
+  }
+  const handlePreview = (item: allType) => {
+    localStorage.setItem('preview', JSON.stringify(item))
+    navigate('/view')
+  }
 
   return (
     <section>
@@ -87,7 +93,7 @@ const All = () => {
                   </div>
                   <div className="preview-all">
                     <Link to="/view" className="preview-link">
-                      <div className="preview">See preview</div>
+                      <div onClick={() => handlePreview(item)} className="preview">See preview</div>
                     </Link>
                   </div>
                 </div>
