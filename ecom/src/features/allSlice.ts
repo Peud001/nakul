@@ -10,6 +10,7 @@ interface allType {
   price: number;
   images: string[];
   discountPercentage: number;
+  itemQty : number
 }
 
 interface initialStateType {

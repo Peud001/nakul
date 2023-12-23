@@ -71,11 +71,17 @@ const Nav = () => {
       }
     }
   }
+  const handleLogo = () => {
+    navigate('/')
+  }
+  const handleCart = () => {
+    navigate('/cart')
+  }
 
   return (
     <section className="common-settings nav-section">
       <div className="nav">
-        <div className="nav-logo">Logo</div>
+        <div onClick={handleLogo} className="nav-logo">Logo</div>
         <div>
           <form onSubmit={(e) => handleSubmit(e)} className="search-form">
             <input 
@@ -117,7 +123,7 @@ const Nav = () => {
             }
           </div>
         </div>
-        <div className="nav-cart-icon-div">
+        <div onClick={handleCart} className="nav-cart-icon-div">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"

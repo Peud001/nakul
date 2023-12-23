@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../app/hook";
+import { useAppSelector, useAppDispatch } from "../app/hook";
 import { useState } from "react";
+import { getCart } from "../features/cartSlice";
 
 interface allType {
   id: number | string;
@@ -11,11 +12,14 @@ interface allType {
   price: number;
   images: string[];
   discountPercentage: number;
+  itemQty : number
 }
 
 const All = () => {
 
   const navigate = useNavigate()
+
+  const dispatch = useAppDispatch()
 
   const [imageId, setImageId] = useState<allType | string>("");
 
@@ -30,6 +34,9 @@ const All = () => {
   const handlePreview = (item: allType) => {
     localStorage.setItem('preview', JSON.stringify(item))
     navigate('/view')
+  }
+  const handleCart = (item: allType) => {
+    dispatch(getCart(item))
   }
 
   return (
@@ -47,7 +54,7 @@ const All = () => {
                       className="all-image"
                       src={imageId === item ? item.images[0] : item.thumbnail}
                     />
-                    <div className="add-to-cart">
+                    <div onClick={() => handleCart(item)} className="add-to-cart">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="20"
