@@ -1,8 +1,9 @@
-import { ChangeEvent, useState, MouseEvent, TouchEvent, FormEvent } from "react";
+import { ChangeEvent, useState, MouseEvent, TouchEvent, FormEvent, useEffect } from "react";
 import { CategoriesData } from "./sub/CategoriesData";
 import { fetchAll, getApi, getNoMatch } from "../features/allSlice";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { useNavigate } from "react-router-dom";
+import { getTotalPrice } from "../features/cartSlice";
 
 interface categoriesType{
   title: string;
@@ -25,6 +26,7 @@ const Nav = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const all = useAppSelector(state => state.all.all)
+  const totalQty = useAppSelector((state) => state.cart.totalQty);
   
   const [options, setOptions] = useState<string | undefined>('')
   const [result, setResult] = useState<categoriesType[]>([])
@@ -59,6 +61,9 @@ const Nav = () => {
     setOptions("")
     setResult([])
   }
+  useEffect(() => {
+    dispatch(getTotalPrice())
+  }, [totalQty])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -77,6 +82,7 @@ const Nav = () => {
   const handleCart = () => {
     navigate('/cart')
   }
+
 
   return (
     <section className="common-settings nav-section">
@@ -134,7 +140,7 @@ const Nav = () => {
           >
             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
           </svg>
-          <span className="cart-quantity">0</span>
+          <span className="cart-quantity">{totalQty}</span>
         </div>
       </div>
     </section>

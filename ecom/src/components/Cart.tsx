@@ -1,35 +1,80 @@
 import Nav from './Nav'
-import { useAppSelector } from '../app/hook' 
+import { useAppDispatch, useAppSelector } from '../app/hook'
+import { getIncremented, getDecremented, getRemoved, getIsDisabled, getIsWarn, getTotalQty } from '../features/cartSlice' 
+import Warn from './sub/Warn';
+import { useState } from 'react';
+
+interface allType {
+  id: number | string;
+  thumbnail: string;
+  title: string;
+  rating: number;
+  stock: number;
+  price: number;
+  images: string[];
+  discountPercentage: number;
+  itemQty : number
+}
 
 const Cart = () => {
 
+  const [itemRemove, setItemRemove] = useState<allType | undefined>()
+
+  const dispatch = useAppDispatch()
+
   const items = useAppSelector(state => state.cart.cartItems)
+  const itemStatus = useAppSelector(state => state.cart.isCartWarn)
+  const isCartDisabled = useAppSelector(state => state.cart.isCartDisabled)
+  const cartTotalPrice = useAppSelector(state => state.cart.cartTotalPrice)
+
+  const incremented = (item: allType) => {
+    dispatch(getIncremented(item))
+    dispatch(getTotalQty())
+  }
+  const decremented = (item: allType) => {
+    dispatch(getDecremented(item))
+    setItemRemove(item);
+    dispatch(getTotalQty())
+  }
+  const handleRemove = () => {
+      if(itemRemove){
+        dispatch(getRemoved(itemRemove));
+      }
+  }
 
   return (
     <section>
       <Nav />
-      <div className="cart-section">
+      <div>{itemStatus? <Warn onRemove={handleRemove}/> : ''}</div>
+      <div className={`cart-section ${isCartDisabled? 'disabled' : ''}`}>
         <div className="cart-container">
-          {items.map((item) => (
-            <div className="cart-col-1">
+          {items.map((item, i) => (
+            <div key={i} className="cart-col-1">
               <div className="cart-row-1">
                 <div className="cart-image-div">
                   <img className="cart-image" src={item.thumbnail} />
                   <div className="cart-title-price">
                     <div>{item.title}</div>
-                    <div>${item.price}</div>
+                    <div>${item.price.toFixed(2)}</div>
                   </div>
                 </div>
-                <div className="cart-total">$550</div>
+                <div className="cart-total">${(item.price * item.itemQty).toFixed(2)}</div>
               </div>
               <div className="cart-row-2">
                 <div>
-                  <button className="cart-remove">Remove</button>
+                  <button onClick={() => {dispatch(getIsDisabled(true)); dispatch(getIsWarn(true)), setItemRemove(item)}} className="cart-remove">Remove</button>
                 </div>
                 <div className="cart-qty">
-                  <button className="cart-btn">-</button>
+                  <button
+                    onClick={() => decremented(item)}
+                    className="cart-btn"
+                  >
+                    -
+                  </button>
                   <div>{item.itemQty}</div>
-                  <button className="cart-btn">+</button>
+                  <button onClick={() => incremented(item)} className="cart-btn">
+                    +
+                  </button>
                 </div>
               </div>
             </div>
@@ -39,10 +84,10 @@ const Cart = () => {
           <h3>CART SUMMARY</h3>
           <div className="cart-subtotal">
             <div>Subtotal</div>
-            <div>$550</div>
+            <div>${cartTotalPrice.toFixed(2)}</div>
           </div>
           <div>
-            <button className="cart-subtotal-btn">CHECKOUT ($550)</button>
+            <button className="cart-subtotal-btn">CHECKOUT (${cartTotalPrice.toFixed(2)})</button>
             <div>Continue Shopping</div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hook";
 import { useState } from "react";
-import { getCart } from "../features/cartSlice";
+import { getCart, getTotalQty } from "../features/cartSlice";
 
 interface allType {
   id: number | string;
@@ -37,6 +37,7 @@ const All = () => {
   }
   const handleCart = (item: allType) => {
     dispatch(getCart(item))
+    dispatch(getTotalQty())
   }
 
   return (

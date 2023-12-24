@@ -1,8 +1,23 @@
 import { useState } from "react";
 import Nav from "./Nav";
+import { useAppDispatch } from "../app/hook";
+import { getCart, getTotalQty } from "../features/cartSlice";
 
+interface allType {
+  id: number | string;
+  thumbnail: string;
+  title: string;
+  rating: number;
+  stock: number;
+  price: number;
+  images: string[];
+  discountPercentage: number;
+  itemQty: number
+}
 
 const View = () => {
+
+  const dispatch = useAppDispatch()
 
   const prev = JSON.parse(localStorage.getItem('preview') ?? '')
 
@@ -10,6 +25,10 @@ const View = () => {
   
   const handleImage = (image: string) => {
     setViewImage(image)
+  }
+  const handleCart = (prev: allType) => {
+    dispatch(getCart(prev))
+    dispatch(getTotalQty())
   }
 
   return (
@@ -35,7 +54,7 @@ const View = () => {
             <h4>{prev.title}</h4>
             <div className="prev-price">
               <div>${prev.price}</div>
-              <div>${prev.price}</div>
+              <div>${prev.price + (prev.price * prev.discountPercentage)/100}</div>
               <div>-{prev.discountPercentage}%</div>
             </div>
             <div className="prev-rating-stock">
@@ -57,7 +76,7 @@ const View = () => {
               <div>{prev.stock} sold</div>
             </div>
             <div className="prev-button">
-              <button className="button">Add to Cart</button>
+              <button onClick={() => handleCart(prev)} className="button">Add to Cart</button>
               <div></div>
               <div>Continue shopping</div>
             </div>

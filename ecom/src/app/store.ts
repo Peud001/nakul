@@ -1,7 +1,7 @@
 import {configureStore} from '@reduxjs/toolkit'
 import { fetchAll } from '../features/allSlice'
 import allReducer from '../features/allSlice'
-import cartReducer from '../features/cartSlice'
+import cartReducer, { getTotalPrice, getTotalQty } from '../features/cartSlice'
 
 export const store = configureStore({
     reducer : {
@@ -10,6 +10,8 @@ export const store = configureStore({
     }
 })
 store.dispatch(fetchAll())
+store.dispatch(getTotalQty())
+store.dispatch(getTotalPrice())
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
