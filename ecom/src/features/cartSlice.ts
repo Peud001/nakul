@@ -69,6 +69,7 @@ export const cartSlice = createSlice({
             const filteredRemove = state.cartItems.filter((item: allType) => item.id !== action.payload.id)
             state.cartItems = filteredRemove
             localStorage.setItem('cartItem', JSON.stringify(filteredRemove))
+            toast.error(`${action.payload.title} removed`, {position : "bottom-left"})
         },
         getTotalQty(state){
             state.totalQty = state.cartItems.reduce((total, item) => total += item.itemQty, 0)

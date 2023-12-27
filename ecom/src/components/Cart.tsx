@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../app/hook'
 import { getIncremented, getDecremented, getRemoved, getIsDisabled, getIsWarn, getTotalQty } from '../features/cartSlice' 
 import Warn from './sub/Warn';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface allType {
   id: number | string;
@@ -17,6 +18,8 @@ interface allType {
 }
 
 const Cart = () => {
+
+  const navigate = useNavigate()
 
   const [itemRemove, setItemRemove] = useState<allType | undefined>()
 
@@ -42,9 +45,13 @@ const Cart = () => {
       }
   }
 
+    const handleNavigate = () => {
+    navigate('/')
+  }
+
   return (
     <section>
-      <Nav />
+      <Nav/>
       <div>{itemStatus? <Warn onRemove={handleRemove}/> : ''}</div>
       <div className={`cart-section ${isCartDisabled? 'disabled' : ''}`}>
         <div className="cart-container">
@@ -88,7 +95,7 @@ const Cart = () => {
           </div>
           <div>
             <button className="cart-subtotal-btn">CHECKOUT (${cartTotalPrice.toFixed(2)})</button>
-            <div>Continue Shopping</div>
+            <div onClick={handleNavigate}>Continue Shopping</div>
           </div>
         </div>
       </div>

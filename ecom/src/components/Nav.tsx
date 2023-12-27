@@ -1,11 +1,24 @@
-import { ChangeEvent, useState, MouseEvent, TouchEvent, FormEvent, useEffect } from "react";
-import { CategoriesData } from "./sub/CategoriesData";
-import { fetchAll, getApi, getNoMatch } from "../features/allSlice";
+import {
+  ChangeEvent,
+  useState,
+  MouseEvent,
+  TouchEvent,
+  FormEvent,
+  useEffect,
+} from "react";
+import {
+  fetchAll,
+  getApi,
+  getFilteredSearch,
+  getIsNotFound,
+  getNoMatch,
+  getSearchOptions,
+} from "../features/allSlice";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import { getTotalPrice } from "../features/cartSlice";
 
-interface categoriesType{
+interface categoriesType {
   title: string;
   url: string;
 }
@@ -22,79 +35,80 @@ interface allType {
 }
 
 const Nav = () => {
-
-  const navigate = useNavigate()
-  const dispatch = useAppDispatch()
-  const all = useAppSelector(state => state.all.all)
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const totalQty = useAppSelector((state) => state.cart.totalQty);
-  
-  const [options, setOptions] = useState<string | undefined>('')
-  const [result, setResult] = useState<categoriesType[]>([])
+  const searchOptions = useAppSelector((state) => state.all.searchOptions);
+
+  const [options, setOptions] = useState<string>("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    const input = e.target.value
-    setOptions(input)
-
-    const pattern = new RegExp(`^${input}`, 'i')
-    if(input && input.length > 0){
-      const filteredResult = CategoriesData.filter(item => pattern.test(item.title.toLowerCase()))
-      setResult(filteredResult)
-    }
-    else{
-      setResult([])
-    } 
-  }
+    e.preventDefault();
+    const input = e.target.value;
+    dispatch(getSearchOptions(input));
+    setOptions(input);
+  };
 
   const handleClick = (item: categoriesType) => {
-    const url = item.url
-    localStorage.setItem('api', JSON.stringify(url))
-    dispatch(getApi())
-    dispatch(fetchAll())
-    setOptions(item.title)
-    setResult([])
-  }
+    const url = item.url;
+    localStorage.setItem("api", JSON.stringify(url));
+    dispatch(getApi());
+    dispatch(fetchAll());
+    setOptions(item.title);
+    dispatch(getSearchOptions(''))
+    dispatch(getIsNotFound(false));
+  };
 
-  const handleCloseOptions = (e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>) => {
-    e.preventDefault()
+  const handleCloseOptions = (
+    e: MouseEvent<HTMLButtonElement> | TouchEvent<HTMLButtonElement>
+  ) => {
+    e.preventDefault();
 
-    setOptions("")
-    setResult([])
-  }
+    setOptions("");
+  };
   useEffect(() => {
-    dispatch(getTotalPrice())
-  }, [totalQty])
+    dispatch(getTotalPrice());
+  }, [totalQty]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    if(options){
-      const filterSearch = all.filter((item: allType) => item.title.toLowerCase().includes(options.toLowerCase()))
-      if(filterSearch.length < 1){
-        dispatch(getNoMatch(options))
-        setOptions('')
-        navigate('/notFound')
-      }
+    e.preventDefault();
+    const all = JSON.parse(localStorage.getItem('all') ?? '')
+    const filterSearch = all.filter((item: allType) =>
+      item.title.toLowerCase().includes(options.toLowerCase())
+    )
+    if (filterSearch.length >= 1) {
+      dispatch(getFilteredSearch(filterSearch));
+      dispatch(getIsNotFound(false));
+      dispatch(getSearchOptions(""));
+    } else {
+      dispatch(getNoMatch(options));
+      setOptions("");
+      dispatch(getIsNotFound(true));
+      dispatch(getSearchOptions(""));
+      dispatch(getFilteredSearch([]))
     }
-  }
+  };
+
   const handleLogo = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
   const handleCart = () => {
-    navigate('/cart')
-  }
-
-
+    navigate("/cart");
+  };
+  
   return (
     <section className="common-settings nav-section">
       <div className="nav">
-        <div onClick={handleLogo} className="nav-logo">Logo</div>
+        <div onClick={handleLogo} className="nav-logo">
+          Logo
+        </div>
         <div>
           <form onSubmit={(e) => handleSubmit(e)} className="search-form">
-            <input 
-            className="nav-input" 
-            placeholder="Search products..."
-            value={options} 
-            onChange={(e) => handleChange(e)}
+            <input
+              className="nav-input"
+              placeholder="Search products..."
+              value={options}
+              onChange={(e) => handleChange(e)}
             />
             <button className="nav-search-button" type="submit">
               <svg
@@ -108,7 +122,11 @@ const Nav = () => {
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
               </svg>
             </button>
-            <button onClick={(e) => handleCloseOptions(e)} type="submit" className="search-close-btn">
+            <button
+              onClick={(e) => handleCloseOptions(e)}
+              type="submit"
+              className="search-close-btn"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
@@ -122,11 +140,17 @@ const Nav = () => {
             </button>
           </form>
           <div className="search-options-container">
-            {
-              result && result.map((item, i) => <div key={i}>
-                <div className="search-options" onClick={() => handleClick(item)}>{item.title}</div>
-              </div>)
-            }
+            {searchOptions &&
+              searchOptions.map((item, i) => (
+                <div key={i}>
+                  <div
+                    className="search-options"
+                    onClick={() => handleClick(item)}
+                  >
+                    {item.title}
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
         <div onClick={handleCart} className="nav-cart-icon-div">

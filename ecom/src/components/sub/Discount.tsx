@@ -20,6 +20,7 @@ interface allType {
   category: string;
   thumbnail: string;
   images: [];
+  itemQty : number
 }
 
 const Discount = () => {
@@ -64,7 +65,10 @@ const Discount = () => {
 
   return (
     <section>
-      <div className="categories">Discount</div>
+      <div className="discount-cat">
+        <div className="discount-title">Discount</div>
+        <button className="discount-reset">Reset</button>
+      </div>
       <div className="discount">
         {discounts.map((item, i) => (
           <div key={i}>

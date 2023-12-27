@@ -6,7 +6,6 @@ import Nav from "./components/Nav";
 import Sidebar from "./components/Sidebar"
 import All from "./components/All";
 import Layout from "./components/Layout";
-import NotFound from "./components/sub/NotFound";
 import View from "./components/View";
 import Cart from "./components/Cart";
 
@@ -18,7 +17,6 @@ function App() {
         <Routes>
           <Route element={<Layout/>}>
             <Route path="/" element={<All/>}/>
-            <Route path="/notFound" element={<NotFound/>}/>
           </Route>
           <Route path="/view" element={<View/>}/>
           <Route path='/cart' element={<Cart/>}/>

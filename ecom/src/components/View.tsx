@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Nav from "./Nav";
-import { useAppDispatch } from "../app/hook";
+import { useAppDispatch, useAppSelector } from "../app/hook";
 import { getCart, getTotalQty } from "../features/cartSlice";
 
 interface allType {
@@ -19,9 +19,12 @@ const View = () => {
 
   const dispatch = useAppDispatch()
 
+  const cartItems = useAppSelector(state => state.cart.cartItems)
+
   const prev = JSON.parse(localStorage.getItem('preview') ?? '')
 
   const [viewImage, setViewImage] = useState<string>(prev.thumbnail)
+  const [cartCount, setCartCount] = useState<allType>()
   
   const handleImage = (image: string) => {
     setViewImage(image)
@@ -31,6 +34,11 @@ const View = () => {
     dispatch(getTotalQty())
   }
 
+  useEffect(() => {
+    const item = cartItems.find((cartItem: allType) => cartItem.id === prev.id)
+    setCartCount(item)
+  }, [prev])
+
   return (
     <section>
       <Nav />
@@ -39,14 +47,15 @@ const View = () => {
           <div className="prev-pics">
             <img className="prev-thumbnail" src={viewImage} />
             <div>
-              {prev.images.map((image: string) => (
-                <img
-                  onClick={() => handleImage(image)}
-                  className={`prev-images ${
-                    image === viewImage ? "enlargeImage" : ""
-                  }`}
-                  src={image}
-                />
+              {prev.images.map((image: string, i: number) => (
+                  <img
+                    key={i}
+                    onClick={() => handleImage(image)}
+                    className={`prev-images ${
+                      image === viewImage ? "enlargeImage" : ""
+                    }`}
+                    src={image}
+                  />
               ))}
             </div>
           </div>
@@ -54,7 +63,9 @@ const View = () => {
             <h4>{prev.title}</h4>
             <div className="prev-price">
               <div>${prev.price}</div>
-              <div>${prev.price + (prev.price * prev.discountPercentage)/100}</div>
+              <div>
+                ${prev.price + (prev.price * prev.discountPercentage) / 100}
+              </div>
               <div>-{prev.discountPercentage}%</div>
             </div>
             <div className="prev-rating-stock">
@@ -76,8 +87,16 @@ const View = () => {
               <div>{prev.stock} sold</div>
             </div>
             <div className="prev-button">
-              <button onClick={() => handleCart(prev)} className="button">Add to Cart</button>
-              <div></div>
+              <button onClick={() => handleCart(prev)} className="view-button">
+                Add to Cart
+              </button>
+              {cartCount ? (
+                <div className="cart-count">
+                  {cartCount.itemQty} of this item has been added to cart
+                </div>
+              ) : (
+                ""
+              )}
               <div>Continue shopping</div>
             </div>
           </div>

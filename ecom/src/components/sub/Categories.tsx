@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../app/hook";
-import { fetchAll, getApi } from "../../features/allSlice";
+import { fetchAll, getApi, getIsNotFound } from "../../features/allSlice";
 
 interface sidebarItemsType {
   title: string;
@@ -96,6 +96,7 @@ const Categories = () => {
     localStorage.setItem('api', JSON.stringify(url))
     dispatch(getApi())
     dispatch(fetchAll());
+    dispatch(getIsNotFound(false))
   };
 
   return (

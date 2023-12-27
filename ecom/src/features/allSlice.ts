@@ -1,5 +1,6 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit'
 import axios from 'axios'
+import { CategoriesData } from '../components/sub/CategoriesData';
 
 interface allType {
   id: number | string;
@@ -12,20 +13,27 @@ interface allType {
   discountPercentage: number;
   itemQty : number
 }
-
+type searchOptionsType = {
+    title : string
+    url : string
+}
 interface initialStateType {
     all : allType[]
     status : string
     error : string | null
     api : string
-    noMatch ?: string 
+    noMatch ?: string
+    searchOptions : searchOptionsType[] 
+    isNotFound : boolean
 }
 
 export const fetchAll = createAsyncThunk('all/fetch', async (_, {getState}) => {
     try {
         const state = getState() as initialStateType
         const res = await axios.get(state.all.api);
-        return res?.data.products;
+        const data = res?.data.products;
+        localStorage.setItem("all", JSON.stringify(data));
+        return data
     } catch (err) {
         return err instanceof Error ? err.message : "Couldn't fetch data, please retry";
     }
@@ -36,7 +44,9 @@ const initialState: initialStateType = {
     status : 'idle',
     error : null,
     api : JSON.parse(localStorage.getItem('api') ?? ''),
-    noMatch : ''
+    noMatch : '',
+    searchOptions : [],
+    isNotFound : false
 }
 
 export const allSlice = createSlice({
@@ -57,6 +67,20 @@ export const allSlice = createSlice({
         },
         getDiscount(state, action: PayloadAction<allType[]>){
             state.all = action.payload
+        },
+        getSearchOptions(state, action: PayloadAction<string>){
+             const pattern = new RegExp(`^${action.payload}`, "i");
+             if (action.payload.length > 0) {
+               const filteredResult = CategoriesData.filter((item) =>
+                 pattern.test(item.title.toLowerCase())
+               )
+               state.searchOptions = filteredResult
+             }else{
+                state.searchOptions = [] 
+             }
+        },
+        getIsNotFound(state, action: PayloadAction<boolean>){
+            state.isNotFound = action.payload
         }
     },
     extraReducers(builder){
@@ -75,4 +99,4 @@ export const allSlice = createSlice({
     }
 })
 export default allSlice.reducer
-export const {getApi, getFilteredPrice, getFilteredSearch, getNoMatch, getDiscount} = allSlice.actions
+export const {getApi, getFilteredPrice, getFilteredSearch, getNoMatch, getDiscount, getSearchOptions, getIsNotFound} = allSlice.actions
