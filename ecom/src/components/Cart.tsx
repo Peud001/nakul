@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../app/hook'
 import { getIncremented, getDecremented, getRemoved, getIsDisabled, getIsWarn, getTotalQty } from '../features/cartSlice' 
 import Warn from './sub/Warn';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface allType {
   id: number | string;
@@ -18,8 +18,6 @@ interface allType {
 }
 
 const Cart = () => {
-
-  const navigate = useNavigate()
 
   const [itemRemove, setItemRemove] = useState<allType | undefined>()
 
@@ -45,15 +43,11 @@ const Cart = () => {
       }
   }
 
-    const handleNavigate = () => {
-    navigate('/')
-  }
-
   return (
     <section>
-      <Nav/>
-      <div>{itemStatus? <Warn onRemove={handleRemove}/> : ''}</div>
-      <div className={`cart-section ${isCartDisabled? 'disabled' : ''}`}>
+      <Nav />
+      <div>{itemStatus ? <Warn onRemove={handleRemove} /> : ""}</div>
+      <div className={`cart-section ${isCartDisabled ? "disabled" : ""}`}>
         <div className="cart-container">
           {items.map((item, i) => (
             <div key={i} className="cart-col-1">
@@ -65,11 +59,21 @@ const Cart = () => {
                     <div>${item.price.toFixed(2)}</div>
                   </div>
                 </div>
-                <div className="cart-total">${(item.price * item.itemQty).toFixed(2)}</div>
+                <div className="cart-total">
+                  ${(item.price * item.itemQty).toFixed(2)}
+                </div>
               </div>
               <div className="cart-row-2">
                 <div>
-                  <button onClick={() => {dispatch(getIsDisabled(true)); dispatch(getIsWarn(true)), setItemRemove(item)}} className="cart-remove">Remove</button>
+                  <button
+                    onClick={() => {
+                      dispatch(getIsDisabled(true));
+                      dispatch(getIsWarn(true)), setItemRemove(item);
+                    }}
+                    className="cart-remove"
+                  >
+                    Remove
+                  </button>
                 </div>
                 <div className="cart-qty">
                   <button
@@ -79,7 +83,10 @@ const Cart = () => {
                     -
                   </button>
                   <div>{item.itemQty}</div>
-                  <button onClick={() => incremented(item)} className="cart-btn">
+                  <button
+                    onClick={() => incremented(item)}
+                    className="cart-btn"
+                  >
                     +
                   </button>
                 </div>
@@ -94,8 +101,28 @@ const Cart = () => {
             <div>${cartTotalPrice.toFixed(2)}</div>
           </div>
           <div>
-            <button className="cart-subtotal-btn">CHECKOUT (${cartTotalPrice.toFixed(2)})</button>
-            <div onClick={handleNavigate}>Continue Shopping</div>
+            <button className="cart-subtotal-btn">
+              CHECKOUT (${cartTotalPrice.toFixed(2)})
+            </button>
+
+            <div>
+              <Link to="/" className='continue-shopping-link'>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-arrow-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                  />
+                </svg>
+                <span className="continue-shopping-txt">Continue Shopping</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

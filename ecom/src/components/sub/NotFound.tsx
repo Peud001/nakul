@@ -1,19 +1,18 @@
 import { useAppSelector } from "../../app/hook";
 import img1 from '../../asset/notFound.png'
 import { useAppDispatch } from "../../app/hook";
-import { getIsNotFound } from "../../features/allSlice";
-import { useNavigate } from "react-router-dom";
+import { fetchAll, getIsNotFound } from "../../features/allSlice";
 
 
 const NotFound = () => {
 
-    const navigate = useNavigate()
 
     const dispatch = useAppDispatch()
 
     const keyword = useAppSelector(state => state.all.noMatch)
 
     const handleClick = () => {
+      dispatch(fetchAll())
       dispatch(getIsNotFound(false))
     }
 

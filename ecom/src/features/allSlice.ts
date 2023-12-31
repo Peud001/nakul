@@ -1,16 +1,20 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit'
 import axios from 'axios'
 import { CategoriesData } from '../components/sub/CategoriesData';
+import { RootState } from '../app/store';
 
 interface allType {
-  id: number | string;
-  thumbnail: string;
+  id: number;
   title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
   rating: number;
   stock: number;
-  price: number;
-  images: string[];
-  discountPercentage: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: [];
   itemQty : number
 }
 type searchOptionsType = {
@@ -21,41 +25,43 @@ interface initialStateType {
     all : allType[]
     status : string
     error : string | null
-    api : string
     noMatch ?: string
     searchOptions : searchOptionsType[] 
     isNotFound : boolean
+    isOpened : boolean
 }
 
-export const fetchAll = createAsyncThunk('all/fetch', async (_, {getState}) => {
+export const fetchAll = createAsyncThunk(
+  "all/fetch",
+  async (_, { getState }) => {
     try {
-        const state = getState() as initialStateType
-        const res = await axios.get(state.all.api);
-        const data = res?.data.products;
-        localStorage.setItem("all", JSON.stringify(data));
-        return data
+      const currentState = getState() as RootState;
+      const currentApi = currentState.api.api; 
+      const res = await axios.get(currentApi);
+      const data = res?.data.products;
+      return data;
     } catch (err) {
-        return err instanceof Error ? err.message : "Couldn't fetch data, please retry";
+      return err instanceof Error
+        ? err.message
+        : "Couldn't fetch data, please retry";
     }
-});
+  }
+);
 
 const initialState: initialStateType = {
     all : [],
     status : 'idle',
     error : null,
-    api : JSON.parse(localStorage.getItem('api') ?? ''),
     noMatch : '',
     searchOptions : [],
-    isNotFound : false
+    isNotFound : false,
+    isOpened : false
 }
 
 export const allSlice = createSlice({
     name : 'all',
     initialState,
     reducers : {
-        getApi(state){
-            state.api = JSON.parse(localStorage.getItem('api') ?? '')
-        },
         getFilteredPrice(state, action: PayloadAction<number[]>){
             state.all = state.all.filter((item: allType) => item.price >= action.payload[0] && item.price <= action.payload[1])
         },
@@ -81,6 +87,9 @@ export const allSlice = createSlice({
         },
         getIsNotFound(state, action: PayloadAction<boolean>){
             state.isNotFound = action.payload
+        },
+        getIsOpen(state){
+            state.isOpened = !state.isOpened
         }
     },
     extraReducers(builder){
@@ -99,4 +108,4 @@ export const allSlice = createSlice({
     }
 })
 export default allSlice.reducer
-export const {getApi, getFilteredPrice, getFilteredSearch, getNoMatch, getDiscount, getSearchOptions, getIsNotFound} = allSlice.actions
+export const { getFilteredPrice, getFilteredSearch, getNoMatch, getDiscount, getSearchOptions, getIsNotFound, getIsOpen} = allSlice.actions

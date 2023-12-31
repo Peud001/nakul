@@ -5,14 +5,17 @@ import { getCart, getTotalQty } from "../features/cartSlice";
 import NotFound from "./sub/NotFound";
 
 interface allType {
-  id: number | string;
-  thumbnail: string;
+  id: number;
   title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
   rating: number;
   stock: number;
-  price: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
   images: string[];
-  discountPercentage: number;
   itemQty : number
 }
 
@@ -22,16 +25,16 @@ const All = () => {
 
   const dispatch = useAppDispatch()
 
-  const [imageId, setImageId] = useState<allType | string>("");
+  const [image, setImage] = useState<allType | string>("");
 
   const all: allType[] = useAppSelector((state) => state.all.all)
   const isNotFound = useAppSelector((state) => state.all.isNotFound)
 
   const handleHover = (item: allType) => {
-    setImageId(item === imageId ? "" : item);
+    setImage(item === image ? "" : item);
   };
   const handleLeave = () => {
-    setImageId("");
+    setImage("");
   }
   const handlePreview = (item: allType) => {
     localStorage.setItem('preview', JSON.stringify(item))
@@ -60,7 +63,7 @@ const All = () => {
                           onMouseLeave={handleLeave}
                           className="all-image"
                           src={
-                            imageId === item ? item.images[0] : item.thumbnail
+                            image === item? item.images[0] : item.thumbnail
                           }
                         />
                         <div

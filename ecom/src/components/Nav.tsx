@@ -8,15 +8,17 @@ import {
 } from "react";
 import {
   fetchAll,
-  getApi,
   getFilteredSearch,
   getIsNotFound,
+  getIsOpen,
   getNoMatch,
   getSearchOptions,
 } from "../features/allSlice";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import { getTotalPrice } from "../features/cartSlice";
+import { updateApi } from "../features/apiSlice";
+import axios from "axios";
 
 interface categoriesType {
   title: string;
@@ -38,9 +40,10 @@ const Nav = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const totalQty = useAppSelector((state) => state.cart.totalQty);
-  const searchOptions = useAppSelector((state) => state.all.searchOptions);
+  const searchOptions = useAppSelector((state) => state.all.searchOptions)
+  const isOpen = useAppSelector(state => state.all.isOpened)
 
-  const [options, setOptions] = useState<string>("");
+  const [options, setOptions] = useState<string>("")
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -51,8 +54,7 @@ const Nav = () => {
 
   const handleClick = (item: categoriesType) => {
     const url = item.url;
-    localStorage.setItem("api", JSON.stringify(url));
-    dispatch(getApi());
+    dispatch(updateApi(url))
     dispatch(fetchAll());
     setOptions(item.title);
     dispatch(getSearchOptions(''))
@@ -70,9 +72,10 @@ const Nav = () => {
     dispatch(getTotalPrice());
   }, [totalQty]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const all = JSON.parse(localStorage.getItem('all') ?? '')
+    const res = await axios.get("https://dummyjson.com/products/");
+    const all = res?.data.products
     const filterSearch = all.filter((item: allType) =>
       item.title.toLowerCase().includes(options.toLowerCase())
     )
@@ -94,7 +97,10 @@ const Nav = () => {
   };
   const handleCart = () => {
     navigate("/cart");
-  };
+  }
+  const toggleHamburger = () => {
+     dispatch(getIsOpen())
+  }
   
   return (
     <section className="common-settings nav-section">
@@ -102,8 +108,14 @@ const Nav = () => {
         <div onClick={handleLogo} className="nav-logo">
           Logo
         </div>
+        <div
+          className={isOpen ? "open-menu-active" : "close-menu-active"}
+          onClick={toggleHamburger}
+        >
+          <div className="hamburger-menu"></div>
+        </div>
         <div>
-          <form onSubmit={(e) => handleSubmit(e)} className="search-form">
+          <form onSubmit={(e) => handleSubmit(e)} className={`search-form ${isOpen? 'disabled' : ''}`}>
             <input
               className="nav-input"
               placeholder="Search products..."

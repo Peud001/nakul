@@ -25,19 +25,11 @@ interface allType {
 
 const Discount = () => {
 
-  const url = useAppSelector(state => state.all.api)
+  const url = useAppSelector(state => state.api.api)
 
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<number>(0);
   const [result, setResult] = useState<allType[]>([])
-
-   useEffect(() => {
-     localStorage.setItem(
-       "api",
-       JSON.stringify("https://dummyjson.com/products/")
-     )
-   }, []);
-
 
   const discounts: discountsType[] = [
     { percent: 10 },
@@ -63,11 +55,15 @@ const Discount = () => {
     dispatch(getDiscount(filteredDiscount));
       }, [result, dispatch, value])
 
+  const handleReset = () => {
+    setValue(0)
+  }    
+
   return (
     <section>
       <div className="discount-cat">
         <div className="discount-title">Discount</div>
-        <button className="discount-reset">Reset</button>
+        <button className="discount-reset" onClick={handleReset}>Reset</button>
       </div>
       <div className="discount">
         {discounts.map((item, i) => (
@@ -76,7 +72,8 @@ const Discount = () => {
               type="radio"
               name="price"
               id={`discount-${i}`}
-              onClick={() => setValue(item.percent)}
+              onChange={() => setValue(item.percent)}
+              checked = {value === item.percent}
             />
             <label className="label" htmlFor={`discount-${i}`}>
               {item.percent}% or more
