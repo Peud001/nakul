@@ -3,6 +3,7 @@ import Nav from "./Nav";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { getCart, getTotalQty } from "../features/cartSlice";
 import { Link } from "react-router-dom";
+import { getNavLogo } from "../features/allSlice";
 
 interface allType {
   id: number | string;
@@ -39,6 +40,10 @@ const View = () => {
     const item = cartItems.find((cartItem: allType) => cartItem.id === prev.id)
     setCartCount(item)
   }, [prev])
+
+  useEffect(() => {
+    dispatch(getNavLogo(true))
+  }, [])
 
   return (
     <section>

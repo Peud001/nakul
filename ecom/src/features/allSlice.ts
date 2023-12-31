@@ -29,6 +29,7 @@ interface initialStateType {
     searchOptions : searchOptionsType[] 
     isNotFound : boolean
     isOpened : boolean
+    isNavLogo : boolean
 }
 
 export const fetchAll = createAsyncThunk(
@@ -55,7 +56,8 @@ const initialState: initialStateType = {
     noMatch : '',
     searchOptions : [],
     isNotFound : false,
-    isOpened : false
+    isOpened : false,
+    isNavLogo : false
 }
 
 export const allSlice = createSlice({
@@ -90,6 +92,9 @@ export const allSlice = createSlice({
         },
         getIsOpen(state){
             state.isOpened = !state.isOpened
+        },
+        getNavLogo(state, action: PayloadAction<boolean>){
+            state.isNavLogo = action.payload
         }
     },
     extraReducers(builder){
@@ -108,4 +113,4 @@ export const allSlice = createSlice({
     }
 })
 export default allSlice.reducer
-export const { getFilteredPrice, getFilteredSearch, getNoMatch, getDiscount, getSearchOptions, getIsNotFound, getIsOpen} = allSlice.actions
+export const { getFilteredPrice, getFilteredSearch, getNoMatch, getDiscount, getSearchOptions, getIsNotFound, getIsOpen, getNavLogo} = allSlice.actions

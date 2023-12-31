@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../app/hook";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCart, getTotalQty } from "../features/cartSlice";
 import NotFound from "./sub/NotFound";
+import { getNavLogo } from "../features/allSlice";
 
 interface allType {
   id: number;
@@ -44,6 +45,10 @@ const All = () => {
     dispatch(getCart(item))
     dispatch(getTotalQty())
   }
+
+  useEffect(() => {
+    dispatch(getNavLogo(false))
+  }, [])
 
   return (
     <section>

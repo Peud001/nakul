@@ -2,8 +2,9 @@ import Nav from './Nav'
 import { useAppDispatch, useAppSelector } from '../app/hook'
 import { getIncremented, getDecremented, getRemoved, getIsDisabled, getIsWarn, getTotalQty } from '../features/cartSlice' 
 import Warn from './sub/Warn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getNavLogo } from '../features/allSlice';
 
 interface allType {
   id: number | string;
@@ -42,6 +43,9 @@ const Cart = () => {
         dispatch(getRemoved(itemRemove));
       }
   }
+  useEffect(() => {
+    dispatch(getNavLogo(true))
+  }, [])
 
   return (
     <section>

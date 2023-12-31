@@ -42,6 +42,7 @@ const Nav = () => {
   const totalQty = useAppSelector((state) => state.cart.totalQty);
   const searchOptions = useAppSelector((state) => state.all.searchOptions)
   const isOpen = useAppSelector(state => state.all.isOpened)
+  const isNavLogo = useAppSelector(state => state.all.isNavLogo)
 
   const [options, setOptions] = useState<string>("")
 
@@ -105,17 +106,26 @@ const Nav = () => {
   return (
     <section className="common-settings nav-section">
       <div className="nav">
-        <div onClick={handleLogo} className="nav-logo">
+        <div onClick={handleLogo} className={`nav-logo ${isNavLogo? 'show-logo' : ''}`}>
           Logo
         </div>
         <div
-          className={isOpen ? "open-menu-active" : "close-menu-active"}
+          className={
+            isNavLogo
+              ? "show-menu"
+              : isOpen
+              ? "open-menu-active"
+              : "close-menu-active"
+          }
           onClick={toggleHamburger}
         >
           <div className="hamburger-menu"></div>
         </div>
         <div>
-          <form onSubmit={(e) => handleSubmit(e)} className={`search-form ${isOpen? 'disabled' : ''}`}>
+          <form
+            onSubmit={(e) => handleSubmit(e)}
+            className={`search-form ${isOpen ? "disabled" : ""}`}
+          >
             <input
               className="nav-input"
               placeholder="Search products..."

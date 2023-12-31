@@ -702,5 +702,11 @@ body {
   .sidebar-logo{
     display: block;
     margin: 0 0 20px 20px;
+  }
+  .show-menu{
+    display: none;
+  }
+  .show-logo{
+    display: block;
   }  
 }
