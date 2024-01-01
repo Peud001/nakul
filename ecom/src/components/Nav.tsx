@@ -10,6 +10,7 @@ import {
   fetchAll,
   getFilteredSearch,
   getIsNotFound,
+  getIsNotPriceRange,
   getIsOpen,
   getNoMatch,
   getSearchOptions,
@@ -60,6 +61,7 @@ const Nav = () => {
     setOptions(item.title);
     dispatch(getSearchOptions(''))
     dispatch(getIsNotFound(false));
+    dispatch(getIsNotPriceRange(false))
   };
 
   const handleCloseOptions = (
@@ -84,12 +86,14 @@ const Nav = () => {
       dispatch(getFilteredSearch(filterSearch));
       dispatch(getIsNotFound(false));
       dispatch(getSearchOptions(""));
+      dispatch(getIsNotPriceRange(false));
     } else {
       dispatch(getNoMatch(options));
       setOptions("");
       dispatch(getIsNotFound(true));
       dispatch(getSearchOptions(""));
       dispatch(getFilteredSearch([]))
+      dispatch(getIsNotPriceRange(false));
     }
   };
 

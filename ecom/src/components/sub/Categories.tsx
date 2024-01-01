@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../app/hook";
-import { fetchAll, getIsNotFound } from "../../features/allSlice";
+import { fetchAll, getIsNotFound, getIsNotPriceRange } from "../../features/allSlice";
 import { updateApi } from "../../features/apiSlice";
 
 interface sidebarItemsType {
@@ -98,6 +98,7 @@ const Categories = () => {
     dispatch(updateApi(url))
     dispatch(fetchAll());
     dispatch(getIsNotFound(false))
+    dispatch(getIsNotPriceRange(false))
   };
 
   return (

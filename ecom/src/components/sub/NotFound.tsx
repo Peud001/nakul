@@ -1,7 +1,8 @@
 import { useAppSelector } from "../../app/hook";
 import img1 from '../../asset/notFound.png'
 import { useAppDispatch } from "../../app/hook";
-import { fetchAll, getIsNotFound } from "../../features/allSlice";
+import { getIsNotFound } from "../../features/allSlice";
+import { Link } from "react-router-dom";
 
 
 const NotFound = () => {
@@ -12,7 +13,6 @@ const NotFound = () => {
     const keyword = useAppSelector(state => state.all.noMatch)
 
     const handleClick = () => {
-      dispatch(fetchAll())
       dispatch(getIsNotFound(false))
     }
 
@@ -26,7 +26,7 @@ const NotFound = () => {
         Try searching more general terms - you can then filter the search
         results
       </div>
-        <button onClick={handleClick} className="notFound-btn" type="submit">Return to Home Page</button>
+        <Link to='/' onClick={handleClick} className="notFound-btn">Return to Home Page</Link>
     </div>
   );
 }

@@ -2,7 +2,8 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hook";
-import { getFilteredPrice } from "../../features/allSlice";
+import { getFilteredPrice, getIsNotPriceRange } from "../../features/allSlice";
+import axios from "axios";
 
 interface allType {
   id: number;
@@ -16,11 +17,13 @@ interface allType {
   category: string;
   thumbnail: string;
   images: [];
+  itemQty : number
 }
 
 const Price = () => {
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.all.all);
+  const api = useAppSelector(state => state.api.api)
+  const [data, setData] = useState<allType[]>([])
 
   const prices = data
     .map((item: allType) => item.price)
@@ -31,6 +34,15 @@ const Price = () => {
   const initialMax = prices.length > 0 ? prices[prices.length - 1] : 0;
 
   const [values, setValues] = useState<number[]>([initialMin, initialMax]);
+
+  useEffect(() => {
+    const fetchItems = async() => {
+      const res = await axios.get(api)
+      const result = res?.data.products
+      setData(result)
+    }
+    fetchItems()
+  }, [values])
 
   useEffect(() => {
     setValues([initialMin, initialMax]);
@@ -47,7 +59,13 @@ const Price = () => {
   };
 
   const handleApply = () => {
-    dispatch(getFilteredPrice(values));
+    const filteredData = data.filter((item: allType) => item.price >= values[0] && item.price <= values[1])
+    if (filteredData.length > 0){
+      dispatch(getFilteredPrice(filteredData));
+      dispatch(getIsNotPriceRange(false))
+    }else{
+      dispatch(getIsNotPriceRange(true))
+    }
   };
 
   return (
@@ -67,6 +85,7 @@ const Price = () => {
             step={10}
             onChange={handleChange}
             value={values}
+
           />
         </div>
         <button className="apply" type="submit" onClick={handleApply}>

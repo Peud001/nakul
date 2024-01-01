@@ -247,6 +247,19 @@ body {
   margin: 5px;
   font-size: 0.9rem;
   border: 1px solid #808080;
+  text-decoration: none;
+  color: #808080;
+}
+.notFound-route{
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 85px 0 20px 0;
+}
+.notFound-route img{
+  width: 300px;
+  border-radius: 10px;
 }
 /* ---------preview----- */
 .prev-section{
@@ -531,6 +544,15 @@ body {
   align-items: center;
   cursor: pointer;
 }
+.add-to-cart:hover{
+  background: #fdf5f5;
+  transform: scale(1.1);
+  transition: 0.5s ease-out;
+}
+.add-to-cart:active{
+  transform: scale(1);
+  transition: none;
+}
 .rating-star {
   display: flex;
   align-items: center;
@@ -586,6 +608,9 @@ body {
 
 /* ------------@media------------- */
 .sidebar-logo{
+  display: none;
+}
+.open-menu-active, .close-menu-active{
   display: none;
 }
 @media (max-width: 768px) {
@@ -708,5 +733,8 @@ body {
   }
   .show-logo{
     display: block;
-  }  
+  }
+  .notFound{
+  width: 100vw;
+}  
 }

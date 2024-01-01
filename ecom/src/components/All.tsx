@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getCart, getTotalQty } from "../features/cartSlice";
 import NotFound from "./sub/NotFound";
 import { getNavLogo } from "../features/allSlice";
+import NotPriceRange from "./sub/NotPriceRange";
 
 interface allType {
   id: number;
@@ -30,6 +31,7 @@ const All = () => {
 
   const all: allType[] = useAppSelector((state) => state.all.all)
   const isNotFound = useAppSelector((state) => state.all.isNotFound)
+  const IsNotPriceRange = useAppSelector(state => state.all.isNotPriceRange)
 
   const handleHover = (item: allType) => {
     setImage(item === image ? "" : item);
@@ -55,6 +57,8 @@ const All = () => {
       <div>
         {isNotFound ? (
           <NotFound />
+        ) : IsNotPriceRange ? (
+          <NotPriceRange />
         ) : (
           <div className="all">
             {all &&
@@ -67,9 +71,7 @@ const All = () => {
                           onMouseEnter={() => handleHover(item)}
                           onMouseLeave={handleLeave}
                           className="all-image"
-                          src={
-                            image === item? item.images[0] : item.thumbnail
-                          }
+                          src={image === item ? item.images[0] : item.thumbnail}
                         />
                         <div
                           onClick={() => handleCart(item)}
