@@ -5,6 +5,7 @@ import { getCart, getTotalQty } from "../features/cartSlice";
 import NotFound from "./sub/NotFound";
 import { getNavLogo } from "../features/allSlice";
 import NotPriceRange from "./sub/NotPriceRange";
+import BackToTop from "./sub/BackToTop";
 
 interface allType {
   id: number;
@@ -138,6 +139,7 @@ const All = () => {
           </div>
         )}
       </div>
+      <BackToTop/>
     </section>
   );
 };

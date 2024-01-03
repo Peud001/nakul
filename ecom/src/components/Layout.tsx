@@ -24,7 +24,7 @@ const Layout = () => {
             <div className={`layout-sidebar ${isOpen? 'active' : ''}`}>
               <Sidebar />
             </div>
-            <div className={`layout-outlet ${isOpen? 'disabled' : ''}`}>
+            <div className={`layout-outlet ${isOpen? 'disable' : ''}`}>
               <Outlet />
             </div>
           </div>

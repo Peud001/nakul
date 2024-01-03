@@ -605,6 +605,10 @@ body {
 .all-items:hover .preview-all {
   display: flex;
 }
+.active-title{
+  background: #191919;
+  color: #e0e0e0;
+}
 
 /* ------------@media------------- */
 .sidebar-logo{
@@ -721,6 +725,10 @@ body {
     height: calc(100vh - 70px);
     overflow-y: scroll;
   }
+  .disable{
+   opacity: 0.5;
+   pointer-events: none;
+}
   .layout-sidebar .active .layout-outlet{
     opacity: 0.5;
   }

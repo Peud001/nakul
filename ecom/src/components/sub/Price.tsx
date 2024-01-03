@@ -2,7 +2,7 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hook";
-import { getFilteredPrice, getIsNotPriceRange } from "../../features/allSlice";
+import { getFilteredPrice, getIsNotPriceRange, getIsOpen } from "../../features/allSlice";
 import axios from "axios";
 
 interface allType {
@@ -66,6 +66,7 @@ const Price = () => {
     }else{
       dispatch(getIsNotPriceRange(true))
     }
+    dispatch(getIsOpen())
   };
 
   return (

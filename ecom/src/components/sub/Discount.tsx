@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { getDiscount } from "../../features/allSlice";
+import { getDiscount, getIsOpen } from "../../features/allSlice";
 import axios from "axios";
 
 
@@ -41,9 +41,9 @@ const Discount = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get(url);
-      const data = res?.data.products;
-      setResult(data);
+    const res = await axios.get(url);
+    const data = res?.data.products;
+    setResult(data);
     };
     fetchData()
   }, [url]);
@@ -53,6 +53,7 @@ const Discount = () => {
       (item: allType) => item.discountPercentage >= value
     );
     dispatch(getDiscount(filteredDiscount));
+    dispatch(getIsOpen())
       }, [result, dispatch, value])
 
   const handleReset = () => {

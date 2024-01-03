@@ -101,7 +101,7 @@ const Nav = () => {
     navigate("/");
   };
   const handleCart = () => {
-    navigate("/cart");
+    navigate("/cart")
   }
   const toggleHamburger = () => {
      dispatch(getIsOpen())
@@ -128,7 +128,7 @@ const Nav = () => {
         <div>
           <form
             onSubmit={(e) => handleSubmit(e)}
-            className={`search-form ${isOpen ? "disabled" : ""}`}
+            className={`search-form ${isOpen ? "disable" : ""}`}
           >
             <input
               className="nav-input"

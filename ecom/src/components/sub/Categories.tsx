@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { useAppDispatch } from "../../app/hook";
-import { fetchAll, getIsNotFound, getIsNotPriceRange } from "../../features/allSlice";
+import { getIsNotFound, getIsNotPriceRange } from "../../features/allSlice";
 import { updateApi } from "../../features/apiSlice";
 
 interface sidebarItemsType {
@@ -91,15 +92,16 @@ const Categories = () => {
     },
   ];
 
+  const [itemTitle, setItemTitle] = useState<string>('')
+
   const handleApi = (item: sidebarItemsType) => {
     const url = item.url
-    console.log(url)
     localStorage.setItem('api', JSON.stringify(url))
     dispatch(updateApi(url))
-    dispatch(fetchAll());
     dispatch(getIsNotFound(false))
     dispatch(getIsNotPriceRange(false))
-  };
+    setItemTitle(item.title === itemTitle? '' : item.title)
+  }
 
   return (
     <section>
@@ -112,7 +114,7 @@ const Categories = () => {
             return (
               <div
                 onClick={() => handleApi(item)}
-                className="custom-dropdown-options"
+                className= {`custom-dropdown-options ${item.title === itemTitle? 'active-title' : ''}`}
                 key={index}
               >
                 {item.title}
