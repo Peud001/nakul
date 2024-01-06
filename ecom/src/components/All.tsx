@@ -3,7 +3,7 @@ import { useAppSelector, useAppDispatch } from "../app/hook";
 import { useEffect, useState } from "react";
 import { getCart, getTotalQty } from "../features/cartSlice";
 import NotFound from "./sub/NotFound";
-import { getNavLogo } from "../features/allSlice";
+import { getNavLogo, getSearchOptions } from "../features/allSlice";
 import NotPriceRange from "./sub/NotPriceRange";
 import BackToTop from "./sub/BackToTop";
 import Pagination from "./sub/Pagination";
@@ -44,6 +44,7 @@ const All = () => {
   const handlePreview = (item: allType) => {
     localStorage.setItem('preview', JSON.stringify(item))
     navigate('/view')
+    dispatch(getSearchOptions(""))
   }
   const handleCart = (item: allType) => {
     dispatch(getCart(item))

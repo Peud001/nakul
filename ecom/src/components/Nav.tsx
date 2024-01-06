@@ -88,6 +88,7 @@ const Nav = () => {
       dispatch(getIsNotFound(false));
       dispatch(getSearchOptions(""));
       dispatch(getIsNotPriceRange(false));
+      navigate('/')
     } else {
       dispatch(getNoMatch(options));
       setOptions("");
@@ -95,14 +96,17 @@ const Nav = () => {
       dispatch(getSearchOptions(""));
       dispatch(getFilteredSearch([]))
       dispatch(getIsNotPriceRange(false));
+      navigate("/");
     }
   };
 
   const handleLogo = () => {
-    navigate("/");
+    navigate("/")
+    dispatch(getSearchOptions(''))
   };
   const handleCart = () => {
     navigate("/cart")
+    dispatch(getSearchOptions(""));
   }
   const toggleHamburger = () => {
      dispatch(getIsOpen())
