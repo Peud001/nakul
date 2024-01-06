@@ -3,11 +3,7 @@ import { FallingLines } from "react-loader-spinner"
 const Loading = () => {
   return (
     <div className="loading">
-      <FallingLines
-        color="#808080"
-        width="100"
-        visible={true}
-      />
+      <FallingLines color="#E07E1B" width="100" visible={true} />
     </div>
   );
 }
