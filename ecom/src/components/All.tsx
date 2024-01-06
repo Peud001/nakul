@@ -7,7 +7,7 @@ import { getNavLogo, getSearchOptions } from "../features/allSlice";
 import NotPriceRange from "./sub/NotPriceRange";
 import BackToTop from "./sub/BackToTop";
 import Pagination from "./sub/Pagination";
-import Footer from "./sub/footer";
+import Footer from "./sub/Footer";
 
 interface allType {
   id: number;
