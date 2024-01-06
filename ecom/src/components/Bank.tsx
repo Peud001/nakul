@@ -1,8 +1,11 @@
-import React from 'react'
+import Nav from './Nav'
 
 const Bank = () => {
   return (
-    <div>Bank</div>
+    <div>
+      <Nav/>
+      <h1 className='bank'>Banking Page</h1>
+    </div>
   )
 }
 

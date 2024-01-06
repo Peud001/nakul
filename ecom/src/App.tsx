@@ -7,6 +7,7 @@ import Layout from "./components/Layout";
 import View from "./components/View";
 import Cart from "./components/Cart";
 import Error from "./components/sub/Error";
+import Bank from "./components/Bank";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/view" element={<View/>}/>
           <Route path='/cart' element={<Cart/>}/>
           <Route path='*' element = {<Error/>} />
+          <Route path='/bank' element = {<Bank/>}/>
         </Routes>
       </BrowserRouter>
     </section>

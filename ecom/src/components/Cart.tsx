@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../app/hook'
 import { getIncremented, getDecremented, getRemoved, getIsDisabled, getIsWarn, getTotalQty } from '../features/cartSlice' 
 import Warn from './sub/Warn';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getNavLogo } from '../features/allSlice';
 
 interface allType {
@@ -19,6 +19,8 @@ interface allType {
 }
 
 const Cart = () => {
+
+  const navigate = useNavigate()
 
   const [itemRemove, setItemRemove] = useState<allType | undefined>()
 
@@ -109,7 +111,7 @@ const Cart = () => {
             <div>${cartTotalPrice.toFixed(2)}</div>
           </div>
           <div>
-            <button className="cart-subtotal-btn">
+            <button onClick={() => navigate('/bank')} className="cart-subtotal-btn">
               CHECKOUT (${cartTotalPrice.toFixed(2)})
             </button>
 

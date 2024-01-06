@@ -638,6 +638,12 @@ body {
   height: auto;
   background: #fff;
 }
+.bank{
+  height: 100Vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* ------------@media------------- */
 .sidebar-logo{
