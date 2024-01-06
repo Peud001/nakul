@@ -26,8 +26,8 @@ const BackToTop = () => {
           onClick={scrollUp}
           style={{
             position: "fixed",
-            bottom: "50px",
-            right: "40px",
+            bottom: "70px",
+            right: "20px",
             height: "30px",
             width: "30px",
             fontSize: "20px",
