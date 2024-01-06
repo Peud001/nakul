@@ -46,6 +46,10 @@ const Cart = () => {
   useEffect(() => {
     dispatch(getNavLogo(true))
   }, [])
+  
+  useEffect(() => {
+    dispatch(getNavLogo(false))
+  }, [])
 
   return (
     <section>

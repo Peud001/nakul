@@ -27,10 +27,16 @@ const Warn = ({ onRemove }: warnProp) => {
           <div className="cart-remove-warn">
             <div>
               <h3>Remove from cart</h3>
-              <p onClick={handleClick}>X</p>
             </div>
-            <p>Do you really want to remove this item from cart</p>
-            <button onClick={handleRemove}>REMOVE ITEM</button>
+            <p>Do you really want to remove this item from cart?</p>
+            <div className="warn-btn-container">
+              <button className="warn-btn1" onClick={handleRemove}>
+                REMOVE ITEM
+              </button>
+              <button className="warn-btn2" onClick={handleClick}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
       ) : (

@@ -2,6 +2,7 @@ import Categories from "./sub/Categories";
 import Discount from "./sub/Discount";
 import Price from "./sub/Price";
 import { useAppSelector } from "../app/hook";
+import logo from '../asset/logo.png'
 
 
 const Sidebar = () => {
@@ -10,9 +11,9 @@ const Sidebar = () => {
   const handleLogo = () => {}
 
   return (
-    <section className={`categories-section ${isOpen? 'active' : ''}`}>
+    <section className={`categories-section ${isOpen ? "active" : ""}`}>
       <div onClick={handleLogo} className="sidebar-logo">
-        Logo
+        <img className="nav-image-logo" src={logo} />
       </div>
       <div>
         <Categories />

@@ -26,6 +26,7 @@ interface allType {
 const Discount = () => {
 
   const url = useAppSelector(state => state.api.api)
+  const values = useAppSelector(state => state.all.values)
 
   const dispatch = useAppDispatch();
   const [value, setValue] = useState<number>(0);
@@ -49,12 +50,15 @@ const Discount = () => {
   }, [url]);
 
   useEffect(() => {
-    const filteredDiscount = result.filter(
-      (item: allType) => item.discountPercentage >= value
-    );
-    dispatch(getDiscount(filteredDiscount));
-    dispatch(getIsOpen())
-      }, [result, dispatch, value])
+    const dataRange = result.filter((item: allType) => item.price >= values[0] && item.price <= values[1])
+    if (dataRange.length > 0){
+      const filteredDiscount = dataRange.filter(
+        (item: allType) => item.discountPercentage >= value
+      );
+      dispatch(getDiscount(filteredDiscount));
+      dispatch(getIsOpen());
+    }
+  }, [result, value])
 
   const handleReset = () => {
     setValue(0)

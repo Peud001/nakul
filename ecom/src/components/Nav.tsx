@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { getTotalPrice } from "../features/cartSlice";
 import { updateApi } from "../features/apiSlice";
 import axios from "axios";
+import logo from "../asset/logo.png"
 
 interface categoriesType {
   title: string;
@@ -110,8 +111,11 @@ const Nav = () => {
   return (
     <section className="common-settings nav-section">
       <div className="nav">
-        <div onClick={handleLogo} className={`nav-logo ${isNavLogo? 'show-logo' : ''}`}>
-          Logo
+        <div
+          onClick={handleLogo}
+          className={`nav-logo ${isNavLogo ? "show-logo" : ""}`}
+        >
+          <img className="nav-image-logo" src={logo}/>
         </div>
         <div
           className={
@@ -141,7 +145,7 @@ const Nav = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
                 height="16"
-                fill="#808080"
+                fill="#E07E1B"
                 className="bi bi-search"
                 viewBox="0 0 16 16"
               >
@@ -157,7 +161,7 @@ const Nav = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
                 height="22"
-                fill="currentColor"
+                fill="#808080"
                 className="bi bi-x"
                 viewBox="0 0 16 16"
               >
@@ -184,7 +188,7 @@ const Nav = () => {
             xmlns="http://www.w3.org/2000/svg"
             width="20"
             height="20"
-            fill="#808080"
+            fill="#E07E1B"
             className="bi bi-cart3"
             viewBox="0 0 16 16"
           >

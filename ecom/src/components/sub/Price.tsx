@@ -2,7 +2,7 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { useState, useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hook";
-import { getFilteredPrice, getIsNotPriceRange, getIsOpen } from "../../features/allSlice";
+import { getFilteredPrice, getIsNotPriceRange, getIsOpen, getValues } from "../../features/allSlice";
 import axios from "axios";
 
 interface allType {
@@ -40,6 +40,7 @@ const Price = () => {
       const res = await axios.get(api)
       const result = res?.data.products
       setData(result)
+      dispatch(getValues(values))
     }
     fetchItems()
   }, [values])
@@ -63,6 +64,7 @@ const Price = () => {
     if (filteredData.length > 0){
       dispatch(getFilteredPrice(filteredData));
       dispatch(getIsNotPriceRange(false))
+      localStorage.setItem("discountData", JSON.stringify(filteredData));
     }else{
       dispatch(getIsNotPriceRange(true))
     }
@@ -83,10 +85,15 @@ const Price = () => {
             className="slider"
             min={prices.length > 0 ? prices[0] : 0}
             max={prices.length > 0 ? prices[prices.length - 1] : 0}
-            step={10}
+            step={1}
             onChange={handleChange}
             value={values}
-
+            handleStyle={{
+              backgroundColor: "#E07E1B",
+              borderColor: "#E07E1B",
+            }}
+            trackStyle={{ backgroundColor: "#E07E1B" }}
+            railStyle={{backgroundColor : "#808080"}}
           />
         </div>
         <button className="apply" type="submit" onClick={handleApply}>

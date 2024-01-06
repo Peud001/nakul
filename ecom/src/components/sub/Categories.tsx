@@ -1,6 +1,11 @@
-import { useState } from "react";
-import { useAppDispatch } from "../../app/hook";
-import { getIsNotFound, getIsNotPriceRange } from "../../features/allSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import {
+  fetchAll,
+  getIsActive,
+  getIsNotFound,
+  getIsNotPriceRange,
+  getIsOpen,
+} from "../../features/allSlice";
 import { updateApi } from "../../features/apiSlice";
 
 interface sidebarItemsType {
@@ -92,29 +97,31 @@ const Categories = () => {
     },
   ];
 
-  const [itemTitle, setItemTitle] = useState<string>('')
+  const itemTitle = useAppSelector(state => state.all.isActive)
 
   const handleApi = (item: sidebarItemsType) => {
-    const url = item.url
-    localStorage.setItem('api', JSON.stringify(url))
-    dispatch(updateApi(url))
-    dispatch(getIsNotFound(false))
-    dispatch(getIsNotPriceRange(false))
-    setItemTitle(item.title === itemTitle? '' : item.title)
-  }
+    dispatch(getIsOpen());
+    const url = item.url;
+    localStorage.setItem("api", JSON.stringify(url));
+    dispatch(updateApi(url));
+    dispatch(fetchAll());
+    dispatch(getIsNotFound(false));
+    dispatch(getIsNotPriceRange(false));
+    dispatch(getIsActive(item.title === itemTitle ? "" : item.title))
+  };
 
   return (
     <section>
-      <div className="search-bar-section">
-        <div className="categories cat">
-          Categories
-        </div>
-        <div className="search-bar-div-on">
+      <div className="side-bar-section">
+        <div className="categories cat">Categories</div>
+        <div className="side-bar-div-on">
           {categories.map((item, index) => {
             return (
               <div
                 onClick={() => handleApi(item)}
-                className= {`custom-dropdown-options ${item.title === itemTitle? 'active-title' : ''}`}
+                className={`custom-dropdown-options ${
+                  item.title === itemTitle ? "active-title" : ""
+                }`}
                 key={index}
               >
                 {item.title}
