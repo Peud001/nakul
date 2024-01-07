@@ -45,10 +45,6 @@ const View = () => {
     dispatch(getNavLogo(true))
   }, [])
 
-  useEffect(() => {
-    dispatch(getNavLogo(false));
-  }, []);
-
   return (
     <section>
       <Nav />

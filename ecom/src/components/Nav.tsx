@@ -123,11 +123,11 @@ const Nav = () => {
         </div>
         <div
           className={
-            isNavLogo
+            `nav-menu ${isNavLogo
               ? "show-menu"
               : isOpen
               ? "open-menu-active"
-              : "close-menu-active"
+              : "close-menu-active"}`
           }
           onClick={toggleHamburger}
         >
