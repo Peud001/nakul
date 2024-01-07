@@ -247,12 +247,14 @@ body {
   padding-bottom: 5px;
 }
 .notFound-btn{
-  padding: 5px;
+  padding: 5px 20px;
   margin: 5px;
   font-size: 0.9rem;
-  border: 1px solid #808080;
+  border: 1px solid #E07E1B;
   text-decoration: none;
-  color: #808080;
+  color: #fff;
+  background: #E07E1B;
+  border-radius: 3px;
 }
 .notFound-route{
   width: 100%;
