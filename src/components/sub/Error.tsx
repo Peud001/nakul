@@ -20,7 +20,7 @@ const Error = () => {
         <img src={error} />
         <h3>Not Found</h3>
         <p>We couldn't fine the page you are looking for</p>
-        <Link className="notFound-btn" to="/">
+        <Link className="notFound-btn" to="/nakul">
           Return to Homepage
         </Link>
       </div>

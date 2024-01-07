@@ -112,7 +112,7 @@ const Cart = () => {
             </button>
 
             <div>
-              <Link to="/" className='continue-shopping-link'>
+              <Link to="/nakul" className='continue-shopping-link'>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

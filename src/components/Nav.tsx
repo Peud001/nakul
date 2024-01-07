@@ -88,7 +88,7 @@ const Nav = () => {
       dispatch(getIsNotFound(false));
       dispatch(getSearchOptions(""));
       dispatch(getIsNotPriceRange(false));
-      navigate('/')
+      navigate('/nakul')
     } else {
       dispatch(getNoMatch(options));
       setOptions("");
@@ -96,12 +96,12 @@ const Nav = () => {
       dispatch(getSearchOptions(""));
       dispatch(getFilteredSearch([]))
       dispatch(getIsNotPriceRange(false));
-      navigate("/");
+      navigate("/nakul");
     }
   };
 
   const handleLogo = () => {
-    navigate("/")
+    navigate("/nakul")
     dispatch(getSearchOptions(''))
   };
   const handleCart = () => {
