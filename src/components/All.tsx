@@ -166,7 +166,7 @@ const All = () => {
         )}
       </div>
       <BackToTop />
-      <Footer/>
+      {isNotFound ? "" : <Footer />}
     </section>
   );
 };

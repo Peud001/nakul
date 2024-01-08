@@ -107,7 +107,7 @@ body {
   width: 5px;
 }
 .side-bar-div-on::-webkit-scrollbar-thumb {
-  background-color: #191919;
+  background-color: #808080;
   border-radius: 50%;
 }
 
@@ -122,7 +122,7 @@ body {
 }
 .custom-dropdown-options:hover {
   color: #e0e0e0;
-  background: #191919;
+  background: #808080;
 }
 @media (hover: hover){}
 .side-bar-links {
@@ -233,7 +233,7 @@ body {
   padding: 20px;
 }
 .notFound img{
-  width: 400px;
+  width: 300px;
   border-radius: 10px;
 }
 .notFound p{
@@ -628,7 +628,7 @@ body {
   display: flex;
 }
 .active-title{
-  background: #191919;
+  background: #808080;
   color: #e0e0e0;
 }
 /* ------------pagination------ */
