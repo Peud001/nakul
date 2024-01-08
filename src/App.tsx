@@ -1,7 +1,7 @@
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
-import {  Routes, HashRouter, Route } from "react-router-dom";
+import {  Routes, HashRouter, Route, Navigate } from "react-router-dom";
 import All from "./components/All";
 import Layout from "./components/Layout";
 import View from "./components/View";
@@ -13,15 +13,16 @@ function App() {
   return (
     <section>
       <HashRouter>
-      <ToastContainer/>
+        <ToastContainer />
         <Routes>
-          <Route element={<Layout/>}>
-            <Route path="/nakul" element={<All/>}/>
+          <Route element={<Layout />}>
+            <Route path="/nakul" element={<All />} />
+            <Route path="/" element={<Navigate to="/nakul" />} />
           </Route>
-          <Route path="/view" element={<View/>}/>
-          <Route path='/cart' element={<Cart/>}/>
-          <Route path='*' element = {<Error/>} />
-          <Route path='/bank' element = {<Bank/>}/>
+          <Route path="/view" element={<View />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<Error />} />
+          <Route path="/bank" element={<Bank />} />
         </Routes>
       </HashRouter>
     </section>
