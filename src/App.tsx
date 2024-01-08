@@ -15,9 +15,9 @@ function App() {
       <HashRouter>
         <ToastContainer />
         <Routes>
+          <Route path="/" element={<Navigate to="/nakul" replace={true} />} />
           <Route element={<Layout />}>
             <Route path="/nakul" element={<All />} />
-            <Route path="/" element={<Navigate to="/nakul" replace={true} />} />
           </Route>
           <Route path="/view" element={<View />} />
           <Route path="/cart" element={<Cart />} />
