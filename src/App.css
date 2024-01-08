@@ -121,8 +121,9 @@ body {
   text-wrap: nowrap;
 }
 .custom-dropdown-options:hover {
-  color: #e0e0e0;
-  background: #808080;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.92rem;
 }
 @media (hover: hover){}
 .side-bar-links {
@@ -628,8 +629,9 @@ body {
   display: flex;
 }
 .active-title{
-  background: #808080;
-  color: #e0e0e0;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 /* ------------pagination------ */
 .pagination{
